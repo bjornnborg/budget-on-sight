@@ -6,7 +6,12 @@ gem 'rails', '4.2.1'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+# Puma webserver
 gem 'puma'
+
+# Heroku
+gem 'rails_12factor', group: :production
+ruby "2.2.0"
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
