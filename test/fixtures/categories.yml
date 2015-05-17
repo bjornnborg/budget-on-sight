@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  description: MyString
+  group: MyString
+  value: 9.99
+  frequency: MyString
+  active: false
+
+two:
+  type: 
+  description: MyString
+  group: MyString
+  value: 9.99
+  frequency: MyString
+  active: false
