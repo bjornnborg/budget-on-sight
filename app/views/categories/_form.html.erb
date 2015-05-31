@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
+    <%= f.label :category_type %><br>
+    <%= f.select :category_type, [['Debit', :debit], ['Credit', :credit]] %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
@@ -29,11 +29,11 @@
   </div>
   <div class="field">
     <%= f.label :frequency %><br>
-    <%= f.text_field :frequency %>
+    <%= f.select :frequency, [['Occasionally', :occasionally], ['Monthly', :monthly], ['Weekly', :weekly], ['Daily', :daily]] %>
   </div>
   <div class="field">
-    <%= f.label :active %><br>
-    <%= f.check_box :active %>
+    <%= f.label :disabled %><br>
+    <%= f.check_box :disabled %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -2,7 +2,7 @@
 
 <p>
   <strong>Type:</strong>
-  <%= @category.type %>
+  <%= @category.category_type %>
 </p>
 
 <p>
@@ -26,8 +26,8 @@
 </p>
 
 <p>
-  <strong>Active:</strong>
-  <%= @category.active %>
+  <strong>Disabled:</strong>
+  <%= @category.disabled %>
 </p>
 
 <%= link_to 'Edit', edit_category_path(@category) %> |
