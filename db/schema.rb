@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601011719) do
+ActiveRecord::Schema.define(version: 20150601014441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,10 @@ ActiveRecord::Schema.define(version: 20150601011719) do
     t.boolean  "disabled"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "user_id"
   end
+
+  add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
   create_table "transactions", force: :cascade do |t|
     t.date     "date"
@@ -34,9 +37,11 @@ ActiveRecord::Schema.define(version: 20150601011719) do
     t.string   "payee"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "user_id"
   end
 
   add_index "transactions", ["category_id"], name: "index_transactions_on_category_id", using: :btree
+  add_index "transactions", ["user_id"], name: "index_transactions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -56,5 +61,7 @@ ActiveRecord::Schema.define(version: 20150601011719) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "categories", "users"
   add_foreign_key "transactions", "categories"
+  add_foreign_key "transactions", "users"
 end
