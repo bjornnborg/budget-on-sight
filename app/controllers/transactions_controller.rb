@@ -5,6 +5,7 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions = Transaction.where(user_id: current_user.id)
+    @current_balance = @transactions.inject(0){|acc, t| t.category.category_type.to_sym == :debit  ? acc -= t.amount : acc+= t.amount}
   end
 
   # GET /transactions/1

@@ -17,7 +17,7 @@
     <% @transactions.each do |transaction| %>
       <tr class="<%=transaction.category.category_type%>">
         <td><%= transaction.date %></td>
-        <td><%= transaction.amount %></td>
+        <td class="currency"><%= transaction.amount %></td>
         <td><%= transaction.category.description %></td>
         <td><%= transaction.payee %></td>
         <td><%= link_to 'Show', transaction %></td>
@@ -26,6 +26,11 @@
       </tr>
     <% end %>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2" class="currency"><%=@current_balance%></td>
+    </tr>
+  </tfoot>
 </table>
 
 <br>
