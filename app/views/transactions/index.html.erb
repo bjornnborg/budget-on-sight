@@ -15,7 +15,7 @@
 
   <tbody>
     <% @transactions.each do |transaction| %>
-      <tr>
+      <tr class="<%=transaction.category.category_type%>">
         <td><%= transaction.date %></td>
         <td><%= transaction.amount %></td>
         <td><%= transaction.category.description %></td>
