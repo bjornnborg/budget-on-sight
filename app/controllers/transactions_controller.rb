@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.where(user_id: current_user.id)
   end
 
   # GET /transactions/1
@@ -16,16 +16,19 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     @transaction.date = Time.now
+    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, description: :asc)
   end
 
   # GET /transactions/1/edit
   def edit
+    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, description: :asc)
   end
 
   # POST /transactions
   # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
+    @transaction.user = current_user
 
     respond_to do |format|
       if @transaction.save
@@ -41,6 +44,7 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
   def update
+    @transaction.user = current_user
     respond_to do |format|
       if @transaction.update(transaction_params)
         format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
