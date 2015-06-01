@@ -6,6 +6,8 @@ gem 'rails', '4.2.1'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+gem 'devise', '~> 3.4.0'
+
 # Puma webserver
 gem 'puma'
 
