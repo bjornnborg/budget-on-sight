@@ -17,12 +17,12 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     @transaction.date = Time.now
-    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, description: :asc)
+    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, group: :asc, description: :asc)
   end
 
   # GET /transactions/1/edit
   def edit
-    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, description: :asc)
+    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, group: :asc, description: :asc)
   end
 
   # POST /transactions
