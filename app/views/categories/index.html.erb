@@ -20,7 +20,7 @@
   <tbody>
     <% @categories.each do |category| %>
       <tr>
-        <td><%= category.category_type %></td>
+        <td><%= category.category_type.humanize %></td>
         <td><%= category.full_description %></td>
         <td><%= category.group %></td>
 <%
@@ -28,7 +28,7 @@
         <td><%= category.value %></td>
 <%
 =end%>        
-        <td><%= category.frequency %></td>
+        <td><%= category.frequency.humanize %></td>
         <td><%= category.disabled %></td>
         <td><%= link_to 'Show', category %></td>
         <td><%= link_to 'Edit', edit_category_path(category) %></td>
