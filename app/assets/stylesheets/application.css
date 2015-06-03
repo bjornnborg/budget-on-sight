@@ -13,3 +13,14 @@
  *= require_tree .
  *= require_self
  */
+
+tr.debit {
+    background-color: #FFB2D1;
+}
+tr.credit {
+    background-color: #B5DAFF;
+}
+
+td.currency {
+    text-align: right;    
+}

@@ -19,7 +19,7 @@
 
   <tbody>
     <% @categories.each do |category| %>
-      <tr>
+      <tr class="<%=category.category_type%>">
         <td><%= category.category_type.humanize %></td>
         <td><%= category.full_description %></td>
         <td><%= category.group %></td>
