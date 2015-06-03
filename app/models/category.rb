@@ -8,4 +8,12 @@ class Category < ActiveRecord::Base
         group = !self[:group].empty? ? "#{self[:group]}/" : "" 
         "#{group}#{self[:description]}"
     end
+
+    def debit?
+        self.category_type.to_sym == :debit
+    end
+
+    def credit?
+        not debit?
+    end
 end

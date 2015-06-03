@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions = Transaction.of(current_user).oldest_first
-    @current_balance = @transactions.inject(0){|acc, t| t.category.category_type.to_sym == :debit  ? acc -= t.amount : acc+= t.amount}
+    @current_balance = @transactions.inject(0){|acc, t| t.category.debit?  ? acc -= t.amount : acc+= t.amount}
   end
 
   # GET /transactions/1
