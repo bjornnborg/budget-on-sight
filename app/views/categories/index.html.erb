@@ -8,7 +8,9 @@
       <th>Type</th>
       <th>Description</th>
       <th>Group</th>
+<!--      
       <th>Value</th>
+-->      
       <th>Frequency</th>
       <th>Disabled</th>
       <th colspan="3"></th>
@@ -21,7 +23,11 @@
         <td><%= category.category_type %></td>
         <td><%= category.full_description %></td>
         <td><%= category.group %></td>
+<%
+=begin%>        
         <td><%= category.value %></td>
+<%
+=end%>        
         <td><%= category.frequency %></td>
         <td><%= category.disabled %></td>
         <td><%= link_to 'Show', category %></td>
