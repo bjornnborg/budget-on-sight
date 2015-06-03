@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, group: :asc, description: :asc)
+    @categories = Category.of(current_user).debits_first
   end
 
   # GET /categories/1

@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.where(user_id: current_user.id)
+    @transactions = Transaction.of(current_user).oldest_first
     @current_balance = @transactions.inject(0){|acc, t| t.category.category_type.to_sym == :debit  ? acc -= t.amount : acc+= t.amount}
   end
 
@@ -17,12 +17,12 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     @transaction.date = Time.now
-    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, group: :asc, description: :asc)
+    @categories = Category.of(current_user).debits_first
   end
 
   # GET /transactions/1/edit
   def edit
-    @categories = Category.where(user_id: current_user.id).order(category_type: :desc, group: :asc, description: :asc)
+    @categories = Category.of(current_user).debits_first
   end
 
   # POST /transactions
