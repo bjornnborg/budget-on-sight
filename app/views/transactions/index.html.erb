@@ -18,7 +18,7 @@
       <tr class="<%=transaction.category.category_type%>">
         <td><%= transaction.date %></td>
         <td class="currency"><%= transaction.amount %></td>
-        <td><%= transaction.category.description %></td>
+        <td><%= transaction.category.full_description %></td>
         <td><%= transaction.payee %></td>
         <td><%= link_to 'Show', transaction %></td>
         <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
