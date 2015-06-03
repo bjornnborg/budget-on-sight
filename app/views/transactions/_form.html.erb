@@ -22,6 +22,7 @@
   <div class="field">
     <%= f.label :category_id %><br>
     <%= f.select :category_id, @categories.collect{|c| ["#{c.full_description} - #{c.category_type}", c.id]} %>
+    <%= link_to 'New Category', new_category_path %>
   </div>
   <div class="field">
     <%= f.label :payee %><br>
