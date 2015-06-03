@@ -23,10 +23,14 @@
     <%= f.label :group %><br>
     <%= f.text_field :group %>
   </div>
+<%
+=begin%>
   <div class="field">
     <%= f.label :value %><br>
     <%= f.text_field :value %>
   </div>
+<%
+=end%>
   <div class="field">
     <%= f.label :frequency %><br>
     <%= f.select :frequency, [['Occasionally', :occasionally], ['Monthly', :monthly], ['Weekly', :weekly], ['Daily', :daily]] %>
