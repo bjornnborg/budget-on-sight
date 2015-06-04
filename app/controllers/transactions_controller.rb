@@ -36,6 +36,7 @@ class TransactionsController < ApplicationController
         format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction }
       else
+        @categories = Category.of(current_user).debits_first
         format.html { render :new }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end

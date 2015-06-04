@@ -4,6 +4,8 @@ class Category < ActiveRecord::Base
     scope :of, -> (user){where(user_id: user.id)}
     scope :debits_first, -> {order(category_type: :desc, group: :asc, description: :asc)}
 
+    validates_presence_of :description, :category_type, :frequency
+
     def full_description
         group = !self[:group].empty? ? "#{self[:group]}/" : "" 
         "#{group}#{self[:description]}"

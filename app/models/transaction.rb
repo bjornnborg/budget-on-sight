@@ -6,6 +6,8 @@ class Transaction < ActiveRecord::Base
   scope :newer_first, -> {order(date: :desc, created_at: :asc)}
   scope :oldest_first, -> {order(date: :asc, created_at: :asc)}
 
+  validates_presence_of :date, :amount, :category_id
+
   def debit?
     self.category? ? self.category.debit? : true
   end
