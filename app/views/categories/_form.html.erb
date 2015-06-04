@@ -36,6 +36,10 @@
     <%= f.select :frequency, [['Occasionally', :occasionally], ['Monthly', :monthly], ['Weekly', :weekly], ['Daily', :daily]] %>
   </div>
   <div class="field">
+    <%= f.label :investment %><br>
+    <%= f.check_box :investment %>
+  </div>
+  <div class="field">
     <%= f.label :disabled %><br>
     <%= f.check_box :disabled %>
   </div>

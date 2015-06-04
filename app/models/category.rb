@@ -5,6 +5,11 @@ class Category < ActiveRecord::Base
     scope :debits_first, -> {order(category_type: :desc, group: :asc, description: :asc)}
 
     validates_presence_of :description, :category_type, :frequency
+    validate :only_debits_can_be_investment
+
+    def only_debits_can_be_investment
+        errors.add(:base, 'Only debits can be marked as an investment') if self.credit? and self.investment?
+    end
 
     def full_description
         group = !self[:group].empty? ? "#{self[:group]}/" : "" 
