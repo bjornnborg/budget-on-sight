@@ -52,6 +52,7 @@ class TransactionsController < ApplicationController
         format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
+        @categories = Category.of(current_user).debits_first
         format.html { render :edit }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
