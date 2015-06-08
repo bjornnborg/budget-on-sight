@@ -21,6 +21,6 @@ class Category < ActiveRecord::Base
     end
 
     def credit?
-        not debit?
+        !debit?
     end
 end
