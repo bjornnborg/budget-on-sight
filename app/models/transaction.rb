@@ -9,10 +9,10 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :date, :amount, :category_id
 
   def debit?
-    self.category? ? self.category.debit? : true
+    self.category.debit
   end
 
   def credit?
-    not debit?
+    !debit?
   end
 end
