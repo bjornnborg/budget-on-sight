@@ -1,7 +1,7 @@
 class Category < ActiveRecord::Base
     belongs_to :user
 
-    scope :of, -> (user){where(user_id: user.id)}
+    #scope :of, -> (user){where(user_id: user.id)}
     scope :debits_first, -> {order(category_type: :desc, group: :asc, description: :asc)}
 
     validates_presence_of :description, :category_type, :frequency

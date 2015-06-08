@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.of(current_user).debits_first
+    @categories = current_user.categories.debits_first.all
   end
 
   # GET /categories/1
