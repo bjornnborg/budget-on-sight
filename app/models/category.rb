@@ -8,7 +8,9 @@ class Category < ActiveRecord::Base
     validate :only_debits_can_be_investment
 
     def only_debits_can_be_investment
-        errors.add(:base, 'Only debits can be marked as an investment') if self.credit? and self.investment?
+        if credit?
+            errors.add(:base, 'Only debits can be marked as an investment') unless debit?
+        end
     end
 
     def full_description
