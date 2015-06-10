@@ -3,19 +3,18 @@
 FactoryGirl.define do
   factory :category do
     category_type :debit
-    description "Lunch"
+    description "Some description"
     frequency :occasionally
     disabled false
-    group "Food"
+    group "Some debit group"
 
     trait :disabled do
         disabled true
     end
 
     trait :credit do
-        group "Income"
+        group "Some credit group"
         category_type :credit
-        description "Salary"
     end
 
     factory :credit, traits: [:credit]

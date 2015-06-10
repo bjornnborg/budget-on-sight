@@ -4,7 +4,8 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.all
+    @transactions = current_user.transactions.oldest_first.all
+    @current_balance = @transactions.inject(0){|acc, t| acc += t.amount}
   end
 
   # GET /transactions/1
