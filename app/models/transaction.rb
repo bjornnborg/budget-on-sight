@@ -13,15 +13,17 @@ class Transaction < ActiveRecord::Base
   end
 
   def credit?
-    self.category.credit?
+    self.category.credit? if self.category
   end
 
-  def amount=(value)
-    if value > 0
-        value *= -1 unless credit?
-    elsif value < 0 
-        value *= -1 unless debit?
+  def amount
+    if self[:amount]
+      if self[:amount] > 0
+          self[:amount] *= -1 unless credit?
+      elsif self[:amount] < 0 
+          self[:amount] *= -1 unless debit?
+      end
     end
-    self[:amount] = value
+    self[:amount]
   end
 end
