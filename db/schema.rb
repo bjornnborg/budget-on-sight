@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610023553) do
+ActiveRecord::Schema.define(version: 20150610024632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,13 +20,13 @@ ActiveRecord::Schema.define(version: 20150610023553) do
     t.string   "category_type"
     t.string   "description"
     t.string   "group"
-    t.decimal  "value"
+    t.decimal  "value",         precision: 11, scale: 2
     t.string   "frequency"
     t.boolean  "disabled"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.integer  "user_id"
-    t.boolean  "investment",    default: false
+    t.boolean  "investment",                             default: false
   end
 
   add_index "categories", ["category_type"], name: "index_categories_on_category_type", using: :btree
@@ -34,11 +34,11 @@ ActiveRecord::Schema.define(version: 20150610023553) do
 
   create_table "transactions", force: :cascade do |t|
     t.date     "date"
-    t.decimal  "amount"
+    t.decimal  "amount",      precision: 11, scale: 2
     t.integer  "category_id"
     t.string   "payee"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.integer  "user_id"
   end
 
