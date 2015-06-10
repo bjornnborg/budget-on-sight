@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610024632) do
+ActiveRecord::Schema.define(version: 20150610040050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
-    t.string   "category_type"
-    t.string   "description"
+    t.string   "category_type",                                          null: false
+    t.string   "description",                                            null: false
     t.string   "group"
     t.decimal  "value",         precision: 11, scale: 2
-    t.string   "frequency"
+    t.string   "frequency",                                              null: false
     t.boolean  "disabled"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
