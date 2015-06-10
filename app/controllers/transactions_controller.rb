@@ -17,12 +17,12 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     @transaction.date = Time.now
-    @categories = Category.of(current_user).debits_first
+    @categories = current_user.categories.debits_first
   end
 
   # GET /transactions/1/edit
   def edit
-    @categories = Category.of(current_user).debits_first
+    @categories = current_user.categories.debits_first
   end
 
   # POST /transactions
@@ -36,7 +36,7 @@ class TransactionsController < ApplicationController
         format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction }
       else
-        @categories = Category.of(current_user).debits_first
+        @categories = current_user.categories.debits_first
         format.html { render :new }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
@@ -52,7 +52,7 @@ class TransactionsController < ApplicationController
         format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
-        @categories = Category.of(current_user).debits_first
+        @categories = current_user.categories.debits_first
         format.html { render :edit }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
