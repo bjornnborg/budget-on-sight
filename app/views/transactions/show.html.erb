@@ -12,7 +12,7 @@
 
 <p>
   <strong>Category:</strong>
-  <%= @transaction.category %>
+  <%= @transaction.category.full_description %>
 </p>
 
 <p>
@@ -20,5 +20,6 @@
   <%= @transaction.payee %>
 </p>
 
+<%= link_to 'New Transaction', new_transaction_path %> |
 <%= link_to 'Edit', edit_transaction_path(@transaction) %> |
 <%= link_to 'Back', transactions_path %>

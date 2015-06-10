@@ -1,0 +1,14 @@
+$debit-line-bg-color: #FFB2D1;
+$credit-line-bg-color: #B5DAFF;
+
+tr.debit {
+    background-color: $debit-line-bg-color;
+}
+
+tr.credit {
+    background-color: $credit-line-bg-color;
+}
+
+td.currency {
+    text-align: right;
+}

@@ -15,10 +15,10 @@
 
   <tbody>
     <% @transactions.each do |transaction| %>
-      <tr>
+      <tr class="<%=transaction.category.category_type%>">
         <td><%= transaction.date %></td>
-        <td><%= transaction.amount %></td>
-        <td><%= transaction.category %></td>
+        <td class="currency"><%= number_to_currency(transaction.amount, unit: "") %></td>
+        <td><%= transaction.category.full_description %></td>
         <td><%= transaction.payee %></td>
         <td><%= link_to 'Show', transaction %></td>
         <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
@@ -26,8 +26,14 @@
       </tr>
     <% end %>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
+    </tr>
+  </tfoot>
 </table>
 
 <br>
 
 <%= link_to 'New Transaction', new_transaction_path %>
+<%= link_to 'Categories', categories_path %>
