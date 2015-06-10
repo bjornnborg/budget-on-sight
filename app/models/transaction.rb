@@ -9,10 +9,19 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :date, :amount, :category_id
 
   def debit?
-    self.category.debit?
+    !credit?
   end
 
   def credit?
-    !debit?
+    self.category.credit?
+  end
+
+  def amount=(value)
+    if value > 0
+        value *= -1 unless credit?
+    elsif value < 0 
+        value *= -1 unless debit?
+    end
+    self[:amount] = value
   end
 end
