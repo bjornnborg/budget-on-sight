@@ -9,7 +9,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :date, :amount, :category_id
 
   def debit?
-    self.category.debit
+    self.category.debit?
   end
 
   def credit?
