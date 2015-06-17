@@ -1,32 +1,24 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
 
-  # GET /transactions
-  # GET /transactions.json
   def index
     @transactions = current_user.transactions.oldest_first.all
     @current_balance = @transactions.inject(0){|acc, t| acc += t.amount}
   end
 
-  # GET /transactions/1
-  # GET /transactions/1.json
   def show
   end
 
-  # GET /transactions/new
   def new
     @transaction = Transaction.new
     @transaction.date = Time.now
     @categories = current_user.categories.debits_first
   end
 
-  # GET /transactions/1/edit
   def edit
     @categories = current_user.categories.debits_first
   end
 
-  # POST /transactions
-  # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
     @transaction.user = current_user
@@ -43,8 +35,6 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /transactions/1
-  # PATCH/PUT /transactions/1.json
   def update
     @transaction.user = current_user
     respond_to do |format|
@@ -59,8 +49,6 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # DELETE /transactions/1
-  # DELETE /transactions/1.json
   def destroy
     @transaction.destroy
     respond_to do |format|
@@ -70,12 +58,10 @@ class TransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_transaction
       @transaction = Transaction.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
       params.require(:transaction).permit(:date, :amount, :category_id, :payee)
     end
