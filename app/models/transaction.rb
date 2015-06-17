@@ -4,6 +4,7 @@ class Transaction < ActiveRecord::Base
 
   scope :newer_first, -> {order(date: :desc, created_at: :asc)}
   scope :oldest_first, -> {order(date: :asc, created_at: :asc)}
+  default_scope -> {joins(:category)}
 
   validates_presence_of :date, :amount, :category_id
 
