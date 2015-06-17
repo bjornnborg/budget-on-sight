@@ -72,11 +72,11 @@ class TransactionsController < ApplicationController
     end
 
     def date_range
-      year = params[:year] || Time.now.strftime('%Y')
-      month = params[:month] || Time.now.strftime('%m')
+      year = (params[:year] || Time.now.strftime('%Y')).to_i
+      month = (params[:month] || Time.now.strftime('%m')).to_i
       [
-        Date.strptime("#{year}/#{month}", '%Y/%m').beginning_of_month, 
-        Date.strptime("#{year}/#{month}", '%Y/%m').next_month.prev_day
+        Date.new(year, month).beginning_of_month, 
+        Date.new(year, month).next_month.prev_day
       ]
     end
 end
