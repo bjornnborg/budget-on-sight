@@ -1,27 +1,27 @@
 class Category < ActiveRecord::Base
-    belongs_to :user
+  belongs_to :user
 
-    #scope :of, -> (user){where(user_id: user.id)}
-    scope :debits_first, -> {order(category_type: :desc, group: :asc, description: :asc)}
+  scope :debits_first, -> {order(category_type: :desc, group: :asc, description: :asc)}
 
-    validates_presence_of :description, :group, :category_type, :frequency
-    validate :only_debits_can_be_investment
+  validates_presence_of :description, :group, :category_type, :frequency
+  validate :only_debits_can_be_investment
 
-    def only_debits_can_be_investment
-        if credit?
-            errors.add(:base, 'Only debits can be marked as an investment') unless debit?
-        end
+  def only_debits_can_be_investment
+    if credit?
+      errors.add(:base, 'Only debits can be marked as an investment') unless debit?
     end
+  end
 
-    def full_description
-        "#{group}/#{description}"
-    end
+  def full_description
+    "#{group}/#{description}"
+  end
 
-    def debit?
-        self.category_type.to_sym == :debit
-    end
+  def debit?
+    self.category_type.to_sym == :debit
+  end
 
-    def credit?
-        !debit?
-    end
+  def credit?
+    !debit?
+  end
+
 end
