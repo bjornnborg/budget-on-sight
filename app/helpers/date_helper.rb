@@ -3,12 +3,12 @@ module DateHelper
   def date_range(hint_params = nil)
     return Time.now.at_beginning_of_month..Time.now.at_end_of_month if hint_params.nil?
     reference = Time.now
-    year = reference.strftime("%Y")
-    month = reference.strftime("%m")
-    month = reference.strftime("%d")
+    year = reference.strftime("%Y").to_i
+    month = reference.strftime("%m").to_i
+    day = reference.strftime("%d").to_i
 
     year =  hint_params[:year] if hint_params[:year]
-    initial_date = Date.new(year) if year && hint_params[:month].nil?
+    initial_date = Date.new(year) if year && hint_params[:month].nil? && hint_params[:day].nil?
     final_date = initial_date.at_end_of_year if initial_date
     return initial_date..final_date if initial_date and final_date
 

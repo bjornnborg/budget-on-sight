@@ -37,7 +37,13 @@ RSpec.describe DateHelper, :type => :helper do
       range = DateHelper.date_range(year: 2013, month: 2, day: 13)
       expect(range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2013-02-13 00:00:00.000"
       expect(range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2013-02-13 23:59:59.999"
-    end    
+    end
+
+    it "must stick with current year and month if only day is given" do
+      range = DateHelper.date_range(day: 13)
+      expect(range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2015-08-13 00:00:00.000"
+      expect(range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2015-08-13 23:59:59.999"
+    end        
 
   end
 
