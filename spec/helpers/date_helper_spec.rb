@@ -51,6 +51,12 @@ RSpec.describe DateHelper, :type => :helper do
       expect(range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2015-05-31 23:59:59.999"
     end
 
+    it "must stick with current year if month and day is given" do
+      range = DateHelper.date_range(month: 5, day: 18)
+      expect(range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2015-05-18 00:00:00.000"
+      expect(range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2015-05-18 23:59:59.999"
+    end    
+
   end
 
 end
