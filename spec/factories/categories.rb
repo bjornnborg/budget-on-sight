@@ -7,13 +7,17 @@ FactoryGirl.define do
     group "Some debit group"
 
     trait :disabled do
-        disabled true
+      disabled true
     end
 
     trait :credit do
-        group "Some credit group"
-        category_type :credit
+      group "Some credit group"
+      category_type :credit
     end
+
+    trait :investment do
+      investment true
+    end    
 
     factory :credit, traits: [:credit]
     
