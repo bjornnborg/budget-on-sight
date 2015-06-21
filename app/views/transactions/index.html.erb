@@ -22,7 +22,7 @@
     <% @transactions.each do |transaction| %>
       <tr class="<%=transaction.category.category_type%>">
         <td><%= transaction.date %></td>
-        <td class="currency"><%= number_to_currency(transaction.amount, unit: "") %></td>
+        <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
         <td><%= transaction.category.full_description %></td>
         <td><%= transaction.payee %></td>
         <td><%= link_to 'Show', transaction %></td>

@@ -1,4 +1,6 @@
 class Transaction < ActiveRecord::Base
+  before_validation :normalized_amount
+
   belongs_to :category
   belongs_to :user
 
@@ -16,13 +18,12 @@ class Transaction < ActiveRecord::Base
     category.credit? if category
   end
 
-  def amount
+  def normalized_amount
     if self[:amount]
       self[:amount] *= -1 if shift_needed
     end
     self[:amount]
   end
-
 
   private
 
