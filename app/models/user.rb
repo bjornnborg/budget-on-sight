@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     end
 
     def balance
-      all.sum(:amount)
+      sum(:amount)
     end
     
   end

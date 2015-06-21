@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
       .until(date_range.last)
       .oldest_first
       .all
-    @current_balance = @transactions.sum(:amount)
+    @current_balance = @transactions.balance
   end
 
   def show
