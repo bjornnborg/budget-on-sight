@@ -17,7 +17,7 @@ class Category < ActiveRecord::Base
   end
 
   def debit?
-    self.category_type.to_sym == :debit
+    category_type.to_sym == :debit
   end
 
   def credit?

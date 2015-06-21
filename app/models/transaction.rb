@@ -13,7 +13,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def credit?
-    self.category.credit? if self.category
+    category.credit? if category
   end
 
   def amount
