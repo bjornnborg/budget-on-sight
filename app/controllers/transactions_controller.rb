@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
-    @transaction.date = Time.now
+    @transaction.date = Time.zone.now
     @categories = current_user.categories.debits_first
   end
 
