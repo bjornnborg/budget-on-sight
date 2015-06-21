@@ -8,11 +8,11 @@ class User < ActiveRecord::Base
   has_many :transactions, dependent: :destroy do 
 
     def since(date)
-      where('date >= ?', date.strftime('%Y/%m/%d 00:00:00')) #at_beginning_of_day?
+      where('date >= ?', date.at_beginning_of_day)
     end
 
     def until(date)
-      where('date <= ?', date.strftime('%Y/%m/%d 23:59:59')) #at_midnight?
+      where('date <= ?', date.at_end_of_day)
     end
 
     def balance
