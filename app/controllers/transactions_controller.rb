@@ -1,11 +1,13 @@
 class TransactionsController < ApplicationController
+  include DateHelper
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
+
 
   def index
     date_ranges = date_range
     @transactions = current_user.transactions
-      .since(date_range[0])
-      .until(date_range[1])
+      .since(date_range.first)
+      .until(date_range.last)
       .oldest_first
       .all
     @current_balance = @transactions.inject(0){|acc, t| acc += t.amount}
@@ -71,12 +73,4 @@ class TransactionsController < ApplicationController
       params.require(:transaction).permit(:date, :amount, :category_id, :payee)
     end
 
-    def date_range
-      year = (params[:year] || Time.now.strftime('%Y')).to_i
-      month = (params[:month] || Time.now.strftime('%m')).to_i
-      [
-        Date.new(year, month).beginning_of_month, 
-        Date.new(year, month).next_month.prev_day
-      ]
-    end
 end
