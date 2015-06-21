@@ -4,10 +4,10 @@ class TransactionsController < ApplicationController
 
 
   def index
-    date_ranges = date_range
+    date_ranges = date_range(params)
     @transactions = current_user.transactions
-      .since(date_range.first)
-      .until(date_range.last)
+      .since(date_ranges.first)
+      .until(date_ranges.last)
       .oldest_first
       .all
     @current_balance = @transactions.balance

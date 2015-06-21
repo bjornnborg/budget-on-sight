@@ -7,17 +7,17 @@ module DateHelper
     month = reference.strftime("%m").to_i
     day = reference.strftime("%d").to_i
 
-    year =  hint_params[:year] if hint_params[:year]
+    year =  hint_params[:year].to_i if hint_params[:year]
     initial_date = Date.new(year) if year && hint_params[:month].nil? && hint_params[:day].nil?
     final_date = initial_date.at_end_of_year if initial_date
     return initial_date..final_date if initial_date and final_date
 
-    month = hint_params[:month] if hint_params[:month]
+    month = hint_params[:month].to_i if hint_params[:month]
     initial_date = Date.new(year, month) if month && hint_params[:day].nil?
     final_date = initial_date.at_end_of_month if initial_date
     return initial_date..final_date if initial_date and final_date
 
-    day = hint_params[:day] if hint_params[:day]
+    day = hint_params[:day].to_i if hint_params[:day]
     initial_date = Date.new(year, month, day)
     final_date = initial_date.at_end_of_day if initial_date
     return initial_date..final_date if initial_date and final_date
