@@ -20,7 +20,7 @@ module DateHelper
     day = hint_params[:day] if hint_params[:day]
     initial_date = Date.new(year, month, day)
     final_date = initial_date.at_end_of_day if initial_date
-    return initial_date..final_date if initial_date and final_date    
+    return initial_date..final_date if initial_date and final_date
 
   end
 
