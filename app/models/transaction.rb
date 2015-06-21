@@ -18,9 +18,15 @@ class Transaction < ActiveRecord::Base
 
   def amount
     if self[:amount]
-      shift_needed = (self[:amount] > 0 && debit?) || (self[:amount] < 0 && credit?)
       self[:amount] *= -1 if shift_needed
     end
     self[:amount]
+  end
+
+
+  private
+
+  def shift_needed
+    (self[:amount] > 0 && debit?) || (self[:amount] < 0 && credit?)
   end
 end
