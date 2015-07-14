@@ -21,6 +21,12 @@ RSpec.describe DateHelper, :type => :helper do
       expect(range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2015-08-31 23:59:59.999"
     end
 
+    it "must cover current month when empty params is given" do
+      range = DateHelper.date_range({})
+      expect(range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2015-08-01 00:00:00.000"
+      expect(range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2015-08-31 23:59:59.999"
+    end
+
     it "must cover current year when only year is given" do
       range = DateHelper.date_range(year: 2013)
       expect(range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2013-01-01 00:00:00.000"

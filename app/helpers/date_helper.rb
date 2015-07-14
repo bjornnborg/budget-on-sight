@@ -1,7 +1,7 @@
 module DateHelper
 
   def date_range(hint_params = nil)
-    return Time.zone.now.at_beginning_of_month..Time.zone.now.at_end_of_month if hint_params.nil?
+    return Time.zone.now.at_beginning_of_month..Time.zone.now.at_end_of_month if hint_params.nil? || no_params_supplied(hint_params)
     reference = Time.zone.now
     year = reference.strftime("%Y").to_i
     month = reference.strftime("%m").to_i
@@ -22,6 +22,12 @@ module DateHelper
     final_date = initial_date.at_end_of_day if initial_date
     return initial_date..final_date if initial_date and final_date
 
+  end
+
+  private
+
+  def no_params_supplied(hint_params)
+    hint_params.keys.select {|k| k == :year || k == :month || k == :day}.size == 0
   end
 
 end
