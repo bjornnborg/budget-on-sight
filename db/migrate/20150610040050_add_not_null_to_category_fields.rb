@@ -1,4 +1,4 @@
-class AddNotNullToCategoryFields < ActiveRecord::Migration
+class AddNotNullToCategoryFields < ActiveRecord::Migration[5.0]
   def change
     change_column_null :categories, :description, false
     change_column_null :categories, :category_type, false

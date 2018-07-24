@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :category do
     category_type :debit
     description "Some description"

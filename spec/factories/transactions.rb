@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :transaction do
     date Time.zone.now
     amount -100
