@@ -7,7 +7,7 @@
   <%= link_to 'Transactions', transactions_path %>
 </p>
 
-<table>
+<table class="categorias">
   <thead>
     <tr>
       <th>Type</th>
@@ -19,8 +19,11 @@
     </tr>
   </thead>
 
-  <tbody>
-    <% @categories.each do |category| %>
+
+  <%@grouped_categories = @categories.group_by(&:group)%>
+  <%@grouped_categories.each do |group, categories_of_group|%>
+    <tbody>
+    <%categories_of_group.each do |category| %>
       <tr class="<%=category.category_type%>">
         <td><%= category.category_type.humanize %></td>
         <td><%= category.full_description %></td>
@@ -32,7 +35,8 @@
         <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
-  </tbody>
+    </tbody>
+  <% end %>
 </table>
 
 <br>
