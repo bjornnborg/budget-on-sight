@@ -11,8 +11,8 @@
   <thead>
     <tr>
       <th>Type</th>
-      <th>Description</th>
       <th>Group</th>
+      <th>Description</th>
       <th>Frequency</th>
       <th>Disabled</th>
       <th colspan="3"></th>
@@ -23,17 +23,19 @@
   <%@grouped_categories = @categories.group_by(&:group)%>
   <%@grouped_categories.each do |group, categories_of_group|%>
     <tbody>
+    <%first = true%>
     <%categories_of_group.each do |category| %>
       <tr class="<%=category.category_type%>">
         <td><%= category.category_type.humanize %></td>
-        <td><%= category.full_description %></td>
-        <td><%= category.group %></td>
+        <td><%= category.group if first%></td>
+        <td><%= category.description %></td>
         <td><%= category.frequency.humanize %></td>
         <td><%= category.disabled %></td>
         <td><%= link_to 'Show', category %></td>
         <td><%= link_to 'Edit', edit_category_path(category) %></td>
         <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <%first = false%>
     <% end %>
     </tbody>
   <% end %>
