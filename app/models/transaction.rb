@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
   before_validation :normalized_amount
+  before_save :compute_missing_hash
 
   belongs_to :category
   belongs_to :user
@@ -26,6 +27,10 @@ class Transaction < ActiveRecord::Base
   end
 
   private
+
+  def compute_missing_hash
+    self[:missing_hash] = HashService.compute_missing_hash(self)
+  end
 
   def shift_needed
     (self[:amount] > 0 && debit?) || (self[:amount] < 0 && credit?)

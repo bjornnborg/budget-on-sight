@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2015_06_10_040050) do
+ActiveRecord::Schema.define(version: 2018_07_31_042950) do
 
   create_table "categories", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "category_type", null: false
@@ -35,8 +35,10 @@ ActiveRecord::Schema.define(version: 2015_06_10_040050) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.string "missing_hash"
     t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["date"], name: "index_transactions_on_date"
+    t.index ["missing_hash"], name: "index_transactions_on_missing_hash"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
