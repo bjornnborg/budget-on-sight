@@ -24,4 +24,20 @@ class Category < ActiveRecord::Base
     !debit?
   end
 
+  def monthly?
+    frequency.to_sym == :monthly
+  end
+
+  def weekly?
+    frequency.to_sym == :weekly
+  end
+
+  def daily?
+    frequency.to_sym == :daily
+  end
+
+  def oftenly?
+    frequency.to_sym == :oftenly
+  end
+
 end

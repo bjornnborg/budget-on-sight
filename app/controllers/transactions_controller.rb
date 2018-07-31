@@ -64,6 +64,10 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def missing
+    @missing_transactions = TransactionService.compute_missing_transactions(current_user)
+  end
+
   private
     def set_transaction
       @transaction = Transaction.find(params[:id])
