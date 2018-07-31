@@ -27,11 +27,27 @@ class TransactionService
     end
 
     frequency_hashes = frequency_transactions_to_check.map{|t| t.missing_hash}
-    existing_transactions = Transaction.where(user_id: user.id).where.not(missing_hash: frequency_hashes)
+    dates = get_dates_to_filter(frequency)
+    existing_transactions = Transaction.where(user_id: user.id, date: dates[0]..dates[1])
     existing_transactions_hashes = existing_transactions.map{|t| t.missing_hash}
 
     frequency_transactions_to_create = frequency_transactions_to_check.reject{|t| existing_transactions_hashes.include?(t.missing_hash)}    
     frequency_transactions_to_create
+  end
+
+  def self.get_dates_to_filter(frequency)
+    date = Date.today
+    dates = [date, date]
+
+    if frequency == :weekly
+      if date.sunday?
+        dates = [date, date]
+      else
+        dates = [date.prev_occurring(:sunday), date.end_of_week(:sunday)]
+      end
+    else
+      dates = [date.beginning_of_month, date.end_of_month]
+    end
   end
 
 end

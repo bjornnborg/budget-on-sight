@@ -29,7 +29,7 @@
             <td><%= transaction.date %></td>
             <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
             <td><%= transaction.category.full_description %></td>
-            <td><%= transaction.payee %></td>
+            <td><%= transaction.missing_hash %></td>
           </tr>
         <% end %>
       </tbody>
