@@ -1,99 +1,43 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Missing Transactions</h1>
-<%if !@missing_transactions[:daily].empty? %>
-  <h2>
-    Hoje
-  </h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Payee</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @missing_transactions[:daily].each do |transaction| %>
-        <tr class="<%=transaction.category.category_type%>">
-          <td><%= transaction.date %></td>
-          <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
-          <td><%= transaction.category.full_description %></td>
-          <td><%= transaction.payee %></td>
+<% @missing_transactions.each do |frequency, transactions| %>
+  <%if !@missing_transactions[frequency].empty? %>
+    <h2>
+      <%if frequency == :daily%>
+        Hoje
+      <%elsif frequency == :weekly%>
+        Esta semana
+      <%else%>
+        Este mês
+      <%end%>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Payee</th>
+          <th colspan="3"></th>
         </tr>
-      <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
-      </tr>
-    </tfoot>
-  </table>
-<%end%>
-<%if !@missing_transactions[:weekly].empty? %>
-  <h2>
-    Esta semana
-  </h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Payee</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
+      </thead>
 
-    <tbody>
-      <% @missing_transactions[:weekly].each do |transaction| %>
-        <tr class="<%=transaction.category.category_type%>">
-          <td><%= transaction.date %></td>
-          <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
-          <td><%= transaction.category.full_description %></td>
-          <td><%= transaction.payee %></td>
+      <tbody>
+        <% transactions.each do |transaction| %>
+          <tr class="<%=transaction.category.category_type%>">
+            <td><%= transaction.date %></td>
+            <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
+            <td><%= transaction.category.full_description %></td>
+            <td><%= transaction.payee %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
         </tr>
-      <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
-      </tr>
-    </tfoot>
-  </table>
-<%end%>
-<%if !@missing_transactions[:monthly].empty? %>
-  <h2>
-    Este mês
-  </h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Payee</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @missing_transactions[:monthly].each do |transaction| %>
-        <tr class="<%=transaction.category.category_type%>">
-          <td><%= transaction.date %></td>
-          <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
-          <td><%= transaction.category.full_description %></td>
-          <td><%= transaction.payee %></td>
-        </tr>
-      <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
-      </tr>
-    </tfoot>
-  </table>
+      </tfoot>
+    </table>
+  <%end%>
 <%end%>
