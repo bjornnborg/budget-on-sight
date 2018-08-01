@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
-    @transaction.date = Time.zone.now
+    @transaction.date = Time.now
     @categories = current_user.categories.debits_first
   end
 
@@ -29,14 +29,27 @@ class TransactionsController < ApplicationController
   def create
     @transaction = Transaction.new(transaction_params)
     @transaction.user = current_user
+    creating_missing = "true" == params["missing_transactions_flag"]
 
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
+        format.html {
+          if creating_missing
+            redirect_to missing_transactions_path, notice: 'Transaction was successfully created.' 
+          else
+            redirect_to @transaction, notice: 'Transaction was successfully created.' 
+          end
+        }
         format.json { render :show, status: :created, location: @transaction }
       else
         @categories = current_user.categories.debits_first
-        format.html { render :new }
+        format.html { 
+          if creating_missing
+            redirect_to missing_transactions_path, flash: {error: @transaction.errors.full_messages}
+          else
+            render :new
+          end
+        }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
     end

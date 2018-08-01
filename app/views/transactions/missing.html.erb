@@ -1,23 +1,35 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Missing Transactions</h1>
+<% if flash[:error] && flash[:error].any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(flash[:error].count, "error") %> prohibited this transaction from being saved:</h2>
+
+    <ul>
+    <% flash[:error].each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <% @missing_transactions.each do |frequency, transactions| %>
   <%if !@missing_transactions[frequency].empty? %>
     <h2>
       <%if frequency == :daily%>
-        Hoje
+        Today
       <%elsif frequency == :weekly%>
-        Esta semana
+        This week
       <%else%>
-        Este mês
+        This month
       <%end%>
     </h2>
     <table>
       <thead>
         <tr>
+          <th>Category</th>
           <th>Date</th>
           <th>Amount</th>
-          <th>Category</th>
           <th>Payee</th>
           <th colspan="3"></th>
         </tr>
@@ -25,12 +37,22 @@
 
       <tbody>
         <% transactions.each do |transaction| %>
-          <tr class="<%=transaction.category.category_type%>">
-            <td><%= transaction.date %></td>
-            <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
-            <td><%= transaction.category.full_description %></td>
-            <td><%= transaction.missing_hash %></td>
-          </tr>
+            <%= form_for(transaction) do |f| %>
+              <tr class="<%=transaction.category.category_type%>">
+                <td>
+                  <%= transaction.category.full_description %>
+                  <%= f.hidden_field :category_id, value: transaction.category.id%>
+                  <%= hidden_field_tag :missing_transactions_flag, "true"%>
+                </td>
+                <td><%= f.date_select :date %></td>
+                <td class="currency"><%= f.text_field :amount %></td>
+                <!--<= number_to_currency(transaction.normalized_amount, unit: "") >-->
+                <td>
+                  <%= f.text_field :payee %>
+                  <%= f.submit "Go!"%>
+                </td>
+              </tr>
+            <%end%>
         <% end %>
       </tbody>
       <tfoot>

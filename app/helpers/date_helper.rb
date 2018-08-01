@@ -1,8 +1,8 @@
 module DateHelper
 
   def date_range(hint_params = nil)
-    return Time.zone.now.at_beginning_of_month..Time.zone.now.at_end_of_month if hint_params.nil? || no_params_supplied(hint_params)
-    reference = Time.zone.now
+    return Time.now.at_beginning_of_month..Time.now.at_end_of_month if hint_params.nil? || no_params_supplied(hint_params)
+    reference = Time.now
     year = reference.strftime("%Y").to_i
     month = reference.strftime("%m").to_i
     day = reference.strftime("%d").to_i
