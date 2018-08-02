@@ -10,6 +10,12 @@ class TransactionsController < ApplicationController
       .until(date_ranges.last)
       .oldest_first
       .all
+    @credits_count = @transactions.count{|t| t.category.credit?}
+    @credits_total = @transactions.select{|t| t.category.credit?}.inject(0) {|sum, t| sum + t.amount}
+
+    @debits_count = @transactions.count{|t| t.category.debit?}
+    @debits_total = @transactions.select{|t| t.category.debit?}.inject(0) {|sum, t| sum + t.amount}
+
     @current_balance = @transactions.balance
   end
 

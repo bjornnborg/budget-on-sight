@@ -33,6 +33,14 @@
   </tbody>
   <tfoot>
     <tr>
+      <td>Créditos: <%=@credits_count%></td>
+      <td class="currency"><%=number_to_currency(@credits_total, unit:"")%></td>
+    </tr>
+    <tr>
+      <td>Débitos: <%=@debits_count%></td>
+      <td class="currency"><%=number_to_currency(@debits_total, unit:"")%></td>
+    </tr>
+    <tr>
       <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
     </tr>
   </tfoot>
