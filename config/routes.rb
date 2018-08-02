@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :transactions do
     collection do
       get 'missing'
+      get 'report'
     end
   end
   resources :categories

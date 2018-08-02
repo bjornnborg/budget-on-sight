@@ -87,6 +87,24 @@ class TransactionsController < ApplicationController
     @missing_transactions = TransactionService.compute_missing_transactions(current_user)
   end
 
+  def report
+    date_ranges = date_range(params)
+    @transactions = current_user.transactions
+      .since(date_ranges.first)
+      .until(date_ranges.last)
+      .oldest_first
+      .all
+
+    @report = {}
+    @report[:debit] = @transactions.select{|t| t.debit?}.group_by{|t| t.category.group}
+    @report[:credit] = @transactions.select{|t| t.credit?}.group_by{|t| t.category.group}
+
+    @debits_total = @report[:debit].values.flat_map{|a| a}.sum{|t| t.amount}
+    @credits_total = @report[:credit].values.flat_map{|a| a}.sum{|t| t.amount}
+
+    @current_balance = @transactions.balance
+  end
+
   private
     def set_transaction
       @transaction = Transaction.find(params[:id])

@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Transactions Report</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Total</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <% @report.each do |category_type, groups| %>
+    <tbody>
+      <% groups.each do |group, transactions| %>
+        <tr class="<%=category_type%>">
+          <td><%=group %></td>
+          <td class="currency"><%= number_to_currency(transactions.sum{|t| t.amount}, unit: "") %></td>          
+        </tr>
+      <% end %>
+    </tbody>
+  <%end%>
+  <tfoot>
+    <tr>
+      <td>Total Créditos</td>
+      <td class="currency"><%=number_to_currency(@credits_total, unit:"")%></td>
+    </tr>
+    <tr>
+      <td>Total Débitos</td>
+      <td class="currency"><%=number_to_currency(@debits_total, unit:"")%></td>
+    </tr>    
+    <tr>
+      <td>Saldo</td>
+      <td class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
+    </tr>    
+  </tfoot>
+</table>
