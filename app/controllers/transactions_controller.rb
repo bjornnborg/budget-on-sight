@@ -85,6 +85,9 @@ class TransactionsController < ApplicationController
 
   def missing
     @missing_transactions = TransactionService.compute_missing_transactions(current_user)
+    @transaction = Transaction.new
+    @transaction.date = Time.now
+    @categories = current_user.categories.debits_first
   end
 
   def report

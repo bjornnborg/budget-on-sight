@@ -17,11 +17,11 @@
   <%if !@missing_transactions[frequency].empty? %>
     <h2>
       <%if frequency == :daily%>
-        Today
+        Daily
       <%elsif frequency == :weekly%>
-        This week
+        Weekly
       <%else%>
-        This month
+        Monthly
       <%end%>
     </h2>
     <table>
@@ -63,3 +63,5 @@
     </table>
   <%end%>
 <%end%>
+<h1>New Transaction</h1>
+<%= render 'form', missing_transactions_flag: true %>
