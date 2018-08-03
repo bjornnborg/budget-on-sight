@@ -64,4 +64,4 @@
   <%end%>
 <%end%>
 <h1>New Transaction</h1>
-<%= render 'form', missing_transactions_flag: true %>
+<%= render partial: 'form', locals: {missing_transactions_flag: true} %>
