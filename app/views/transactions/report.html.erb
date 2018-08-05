@@ -29,10 +29,18 @@
     <tr>
       <td>Total Débitos</td>
       <td class="currency"><%=number_to_currency(@debits_total, unit:"")%></td>
-    </tr>    
+    </tr>
     <tr>
       <td>Saldo</td>
       <td class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
-    </tr>    
+    </tr>
+    <tr>
+      <td>Investimentos</td>
+      <td class="currency"><%=number_to_currency(@investments_total, unit:"")%></td>
+    </tr>
+    <tr>
+      <td>Total Gastos</td>
+      <td class="currency"><%=number_to_currency(@debits_total - @investments_total, unit:"")%></td>
+    </tr>
   </tfoot>
 </table>
