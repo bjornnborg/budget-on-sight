@@ -106,6 +106,8 @@ class TransactionsController < ApplicationController
     @credits_total = @report[:credit].values.flat_map{|a| a}.sum{|t| t.amount}
 
     @current_balance = @transactions.balance
+
+    @investments_total = @transactions.select{|t| t.category.investment?}.sum{|t| t.amount}
   end
 
   private

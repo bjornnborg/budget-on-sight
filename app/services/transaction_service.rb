@@ -22,6 +22,8 @@ class TransactionService
 
     if frequency == :monthly
       dates_to_iterate = [Date.today]
+    elsif frequency == :weekly
+      dates_to_iterate = [dates.first]
     end
 
     frequency_categories = Category.where(user_id: user.id, frequency: frequency).debits_first.to_a
@@ -56,6 +58,7 @@ class TransactionService
     elsif frequency == :weekly
       days_of_month = (today.beginning_of_month..today).to_a
       dates = days_of_month.select{|d| d.wday == days_of_month.first.wday} # all days in the same week day as the start of month, until today
+      dates = dates.map{|d| [d, d + 6.days]}.first{|d| d >= today}.flatten # first pair start/end of week which contains the current date
     else
       dates = [today.beginning_of_month, today.end_of_month] #all days from the beginning up to the end of month
     end
