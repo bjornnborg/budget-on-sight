@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       get 'missing'
       get 'report'
+      post 'dismiss'
     end
   end
   resources :categories

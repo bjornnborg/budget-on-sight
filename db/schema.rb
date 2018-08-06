@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_31_042950) do
+ActiveRecord::Schema.define(version: 2018_08_06_044526) do
 
   create_table "categories", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "category_type", null: false
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 2018_07_31_042950) do
     t.boolean "investment", default: false
     t.index ["category_type"], name: "index_categories_on_category_type"
     t.index ["user_id"], name: "index_categories_on_user_id"
+  end
+
+  create_table "dismissed_hashes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "missing_hash"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["missing_hash"], name: "index_dismissed_hashes_on_missing_hash"
+    t.index ["user_id"], name: "index_dismissed_hashes_on_user_id"
   end
 
   create_table "transactions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -60,6 +69,7 @@ ActiveRecord::Schema.define(version: 2018_07_31_042950) do
   end
 
   add_foreign_key "categories", "users"
+  add_foreign_key "dismissed_hashes", "users"
   add_foreign_key "transactions", "categories"
   add_foreign_key "transactions", "users"
 end

@@ -1,5 +1,12 @@
 class TransactionService
 
+  def self.dismiss(hash, user)
+    dismissed = DismissedHash.new
+    dismissed.user = user
+    dismissed.missing_hash = hash
+    dismissed.save
+  end
+
   def self.compute_missing_transactions(user)
     self.compute_missing_transactions_for_date(user, Date.today)
   end
@@ -45,7 +52,11 @@ class TransactionService
     existing_transactions = Transaction.where(user_id: user.id, date: dates.first..dates.last)
     existing_transactions_hashes = existing_transactions.map{|t| t.missing_hash}
 
-    frequency_transactions_to_create = frequency_transactions_to_check.reject{|t| existing_transactions_hashes.include?(t.missing_hash)}    
+    frequency_transactions_to_create = frequency_transactions_to_check.reject{|t| existing_transactions_hashes.include?(t.missing_hash)}
+
+    dismissed_hashes = DismissedHash.where(user_id: user.id).to_a.map(&:missing_hash)
+    frequency_transactions_to_create = frequency_transactions_to_create.reject{|t| dismissed_hashes.include?(t.missing_hash)}
+
     frequency_transactions_to_create
   end
 

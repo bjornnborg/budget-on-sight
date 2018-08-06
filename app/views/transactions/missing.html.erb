@@ -37,22 +37,30 @@
 
       <tbody>
         <% transactions.each do |transaction| %>
-            <%= form_for(transaction) do |f| %>
+            
               <tr class="<%=transaction.category.category_type%>">
-                <td>
-                  <%= transaction.category.full_description %>
-                  <%= f.hidden_field :category_id, value: transaction.category.id%>
-                  <%= hidden_field_tag :missing_transactions_flag, "true"%>
-                </td>
-                <td><%= f.date_select :date %></td>
-                <td class="currency"><%= f.text_field :amount %></td>
-                <!--<= number_to_currency(transaction.normalized_amount, unit: "") >-->
-                <td>
-                  <%= f.text_field :payee %>
-                  <%= f.submit "Go!"%>
-                </td>
+                <%= form_for(transaction) do |f| %>
+                  <td>
+                    <%= transaction.category.full_description %>
+                    <%= f.hidden_field :category_id, value: transaction.category.id%>
+                    <%= hidden_field_tag :missing_transactions_flag, "true"%>
+                  </td>
+                  <td><%= f.date_select :date %><%=transaction.date.strftime('%a')%></td>
+                  <td class="currency"><%= f.text_field :amount %></td>
+                  <!--<= number_to_currency(transaction.normalized_amount, unit: "") >-->
+                  <td>
+                    <%= f.text_field :payee %>
+                    <%= f.submit "Go!"%>
+                  </td>
+                <%end%>
+                <%= form_for :dismiss_hash, url: dismiss_transactions_path do |f| %>
+                  <td>
+                    <%= f.hidden_field :missing_hash, value: transaction.missing_hash%>
+                    <%= f.submit "Dismiss"%>
+                  </td>
+                <%end%>
               </tr>
-            <%end%>
+            
         <% end %>
       </tbody>
       <tfoot>

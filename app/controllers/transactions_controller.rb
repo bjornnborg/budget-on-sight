@@ -110,6 +110,11 @@ class TransactionsController < ApplicationController
     @investments_total = @transactions.select{|t| t.category.investment?}.sum{|t| t.amount}
   end
 
+  def dismiss
+    TransactionService.dismiss(dismiss_params[:missing_hash], current_user)
+    redirect_to missing_transactions_path, notice: 'Suggestion was successfully dismissed.' 
+  end
+
   private
     def set_transaction
       @transaction = Transaction.find(params[:id])
@@ -118,5 +123,9 @@ class TransactionsController < ApplicationController
     def transaction_params
       params.require(:transaction).permit(:date, :amount, :category_id, :payee)
     end
+
+    def dismiss_params
+      params.require(:dismiss_hash).permit(:missing_hash)
+    end    
 
 end
