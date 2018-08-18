@@ -15,7 +15,7 @@ class TransactionService
     result = {}
 
     [:daily, :weekly, :monthly].each do |frequency|
-    #[:weekly].each do |frequency|
+    #[:monthly].each do |frequency|
       result[frequency] = get_missing_transactions(user, frequency)
     end
 
@@ -34,7 +34,7 @@ class TransactionService
       #dates_to_iterate = [dates.first]
     end
 
-    dates_to_iterate = dates.map{|d| d.first}
+    dates_to_iterate = dates_to_iterate.map{|d| d.first}
 
     frequency_categories = Category.where(user_id: user.id, frequency: frequency).debits_first.to_a
     frequency_transactions_to_check = []
