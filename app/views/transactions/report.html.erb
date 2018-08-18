@@ -7,6 +7,7 @@
     <tr>
       <th>Category</th>
       <th>Total</th>
+      <th>%</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,7 +17,8 @@
       <% groups.each do |group, transactions| %>
         <tr class="<%=category_type%>">
           <td><%=group %></td>
-          <td class="currency"><%= number_to_currency(transactions.sum{|t| t.amount}, unit: "") %></td>          
+          <td class="currency"><%= number_to_currency(transactions.sum{|t| t.amount}, unit: "") %></td>
+          <td class="currency"><%=number_to_currency((transactions.sum{|t| t.amount}.abs / @credits_total) * 100, unit:"")%></td>
         </tr>
       <% end %>
     </tbody>
