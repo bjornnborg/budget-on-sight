@@ -99,8 +99,8 @@ class TransactionsController < ApplicationController
       .all
 
     @report = {}
-    @report[:debit] = @transactions.select{|t| t.debit?}.group_by{|t| t.category.group}
-    @report[:credit] = @transactions.select{|t| t.credit?}.group_by{|t| t.category.group}
+    @report[:debit] = Hash[@transactions.select{|t| t.debit?}.group_by{|t| t.category.group}.sort_by{|k,v| v.sum(&:amount)}]
+    @report[:credit] = Hash[@transactions.select{|t| t.credit?}.group_by{|t| t.category.group}.sort_by{|k, v| v.sum(&:amount)}.reverse]
 
     @debits_total = @report[:debit].values.flat_map{|a| a}.sum{|t| t.amount}
     @credits_total = @report[:credit].values.flat_map{|a| a}.sum{|t| t.amount}
