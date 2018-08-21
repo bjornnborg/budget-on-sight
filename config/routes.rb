@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       get 'missing'
       get 'report'
+      get 'report/detail', action: 'report_detail'
       post 'dismiss'
     end
   end

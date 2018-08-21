@@ -2,6 +2,7 @@ class Category < ActiveRecord::Base
   belongs_to :user
 
   scope :debits_first, -> {order(category_type: :desc, group: :asc, description: :asc)}
+  scope :from_group, -> (group_name) {where("`group` = ?", group_name)}
 
   validates_presence_of :description, :group, :category_type, :frequency
   validate :only_debits_can_be_investment

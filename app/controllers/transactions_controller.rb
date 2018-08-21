@@ -110,6 +110,17 @@ class TransactionsController < ApplicationController
     @investments_total = @transactions.select{|t| t.category.investment?}.sum{|t| t.amount}
   end
 
+  def report_detail
+    date_ranges = date_range(params)
+    @transactions = current_user.transactions
+      .since(date_ranges.first)
+      .until(date_ranges.last)
+      .from_group(params[:group_name])
+
+    @current_balance = @transactions.balance
+    @transactions_count = @transactions.size
+  end
+
   def dismiss
     TransactionService.dismiss(dismiss_params[:missing_hash], current_user)
     redirect_to missing_transactions_path, notice: 'Suggestion was successfully dismissed.' 

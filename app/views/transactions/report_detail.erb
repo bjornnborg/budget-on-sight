@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Transactions for group <%=params[:group_name]%></h1>
+
+<p>
+  <%= link_to 'Voltar', report_transactions_path %>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Category</th>
+      <th>Payee</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr class="<%=transaction.category.category_type%>">
+        <td><%= transaction.date %></td>
+        <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
+        <td><%= transaction.category.full_description %></td>
+        <td><%= transaction.payee %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Transações: <%=@transactions_count%></td>
+      <td class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
+    </tr>
+  </tfoot>
+</table>
+
+<br>
+
+<%= link_to 'Voltar', report_transactions_path %>
