@@ -23,8 +23,13 @@ FactoryBot.define do
       frequency :monthly
     end
 
+    trait :weekly do
+      frequency :weekly
+    end
+
     factory :credit, traits: [:credit]
     factory :monthly, traits: [:monthly]
+    factory :weekly, traits: [:weekly]
     
   end
 
