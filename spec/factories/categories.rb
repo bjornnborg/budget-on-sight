@@ -17,9 +17,14 @@ FactoryBot.define do
 
     trait :investment do
       investment true
-    end    
+    end
+
+    trait :monthly do
+      frequency :monthly
+    end
 
     factory :credit, traits: [:credit]
+    factory :monthly, traits: [:monthly]
     
   end
 
