@@ -13,6 +13,11 @@
   </div>
 <% end %>
 
+<p>
+  <%= previous_month_link(missing_transactions_path) %> | 
+  <%= next_month_link(missing_transactions_path) %>
+</p>
+
 <% @missing_transactions.each do |frequency, transactions| %>
   <%if !@missing_transactions[frequency].empty? %>
     <h2>

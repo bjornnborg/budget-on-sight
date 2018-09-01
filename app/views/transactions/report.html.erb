@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Transactions Report</h1>
+<p>
+  <%= previous_month_link(report_transactions_path) %> | 
+  <%= next_month_link(report_transactions_path) %>
+</p>
 
 <table>
   <thead>
@@ -16,7 +20,7 @@
     <tbody>
       <% groups.each do |group, transactions| %>
         <tr class="<%=category_type%>">
-          <td><%=link_to group, report_detail_transactions_path({group_name: group})%></td>
+          <td><%=link_to group, report_detail_transactions_path({group_name: group}.merge(@existing_params))%></td>
           <td class="currency"><%= number_to_currency(transactions.sum{|t| t.amount}, unit: "") %></td>
           <td class="currency"><%=number_to_currency((transactions.sum{|t| t.amount}.abs / @credits_total) * 100, unit:"")%></td>
         </tr>

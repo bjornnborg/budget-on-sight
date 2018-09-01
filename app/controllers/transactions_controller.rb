@@ -91,6 +91,8 @@ class TransactionsController < ApplicationController
   end
 
   def report
+    @existing_params = params.to_unsafe_h.slice("year", "month")
+
     date_ranges = date_range(params)
     @transactions = current_user.transactions
       .since(date_ranges.first)
@@ -111,6 +113,8 @@ class TransactionsController < ApplicationController
   end
 
   def report_detail
+    @existing_params = params.to_unsafe_h.slice("year", "month")
+
     date_ranges = date_range(params)
     @transactions = current_user.transactions
       .since(date_ranges.first)
