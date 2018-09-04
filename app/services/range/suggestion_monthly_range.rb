@@ -13,7 +13,7 @@ class Range::SuggestionMonthlyRange
   end
 
   def self.dates_to_filter(reference_date)
-    [[reference_date.beginning_of_month, reference_date.end_of_month]]
+    [[reference_date.beginning_of_month, reference_date.end_of_month]] #all days from the beginning up to the end of month
   end
 
 end

@@ -17,6 +17,21 @@ class Range::SuggestionWeeklyRange
     "#{self.date_piece}-category:#{@transaction.category.id}"
   end
 
+  def self.dates_to_filter(reference_date)
+    end_date = reference_date.end_of_month
+
+    on_this_month = Date.today.month == reference_date.month && Date.today.year == reference_date.year
+    if (on_this_month)
+      end_date = Date.today
+    end
+
+    dates = (reference_date.beginning_of_month..end_date).to_a # all days until today or the end of some month
+    dates = dates.select{|d| d.wday == dates.first.wday} # all days in the same week day as the start of month, until today
+    dates = dates.map{|d| [d, d + 6.days]} # pair of start/end of week
+    dates.last[1] = end_date # ensure that we will not send a date from august if july ends
+    dates
+  end
+
   private
 
   def all_dates_until(date)
