@@ -12,4 +12,8 @@ class Range::SuggestionMonthlyRange
     "#{self.date_piece}-category:#{@transaction.category.id}"
   end
 
+  def self.dates_to_filter(reference_date)
+    [[reference_date.beginning_of_month, reference_date.end_of_month]]
+  end
+
 end
