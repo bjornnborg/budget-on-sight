@@ -8,15 +8,15 @@ class TransactionService
   end
 
   def self.compute_missing_transactions(user)
-    self.compute_missing_transactions_for_date(user, Date.today)
+    self.compute_missing_transactions_for_date(user, Date.today..Date.today)
   end
 
-  def self.compute_missing_transactions_for_date(user, date)
+  def self.compute_missing_transactions_for_date(user, date_range)
     result = {}
 
     [:daily, :weekly, :monthly].each do |frequency|
-    #[:monthly].each do |frequency|
-      result[frequency] = get_missing_transactions(user, frequency)
+    #[:daily].each do |frequency|
+      result[frequency] = get_missing_transactions(user, frequency, date_range)
     end
 
     result
@@ -24,12 +24,16 @@ class TransactionService
 
   private
 
-  def self.get_missing_transactions(user, frequency)
-    dates = get_dates_to_filter(frequency)
+  def self.get_missing_transactions(user, frequency, date_range)
+    dates = get_dates_to_filter(frequency, date_range)
     dates_to_iterate = dates
 
     if frequency == :monthly
-      dates_to_iterate = [[Date.today, Date.today]]
+      if (date_range.include?(Date.today))
+        dates_to_iterate = [[Date.today, Date.today]]
+      else
+        dates_to_iterate = [[date_range.first, date_range.last]]
+      end
     elsif frequency == :weekly
       #dates_to_iterate = [dates.first]
     end
@@ -67,28 +71,18 @@ class TransactionService
   end
 
   #array of arrays with begin/end dates
-  def self.get_dates_to_filter(frequency)
-    today = Date.today
+  def self.get_dates_to_filter(frequency, date_range)
     dates = []
 
     if frequency == :daily
-      dates = (Date.today.beginning_of_month..Date.today).to_a # all days until today
-      dates = dates.map{|e| [e, e]}
+      dates = Range::SuggestionDailyRange.dates_to_filter(date_range.last)
     elsif frequency == :weekly
-      days_of_month = (today.beginning_of_month..today).to_a
-      dates = days_of_month.select{|d| d.wday == days_of_month.first.wday} # all days in the same week day as the start of month, until today
-      puts "Dates are >>>>>>>>>>>>>>>>>>>>>>>>>"
-      puts "#{dates}"      
-      #dates = dates.map{|d| [d, d + 6.days]}.first{|d| d >= today}.flatten # first pair start/end of week which contains the current date
-      dates = dates.map{|d| [d, d + 6.days]} # first pair start/end of week which contains the current date
-      puts "Dates pairs are >>>>>>>>>>>>>>>>>>>>>>>>>"
-      puts "#{dates}"
-    else
-      dates = [[today.beginning_of_month, today.end_of_month]] #all days from the beginning up to the end of month
+      dates = Range::SuggestionWeeklyRange.dates_to_filter(date_range.last)
+    elsif frequency == :monthly
+      dates = Range::SuggestionMonthlyRange.dates_to_filter(date_range.last)
     end
 
     dates
-
   end
 
 end

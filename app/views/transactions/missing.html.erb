@@ -67,6 +67,7 @@
               </tr>
             
         <% end %>
+        <%= transactions.size %>
       </tbody>
       <tfoot>
         <tr>
@@ -75,6 +76,9 @@
       </tfoot>
     </table>
   <%end%>
+<%end%>
+<% if @missing_transactions.values.flatten.empty? %>
+    <p>No missing transactions</p>
 <%end%>
 <h1>New Transaction</h1>
 <%= render partial: 'form', locals: {missing_transactions_flag: true} %>

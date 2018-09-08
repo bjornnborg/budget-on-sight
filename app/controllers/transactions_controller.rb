@@ -84,7 +84,8 @@ class TransactionsController < ApplicationController
   end
 
   def missing
-    @missing_transactions = TransactionService.compute_missing_transactions(current_user)
+    date_ranges = date_range(params)
+    @missing_transactions = TransactionService.compute_missing_transactions_for_date(current_user, date_ranges.first.to_datetime.to_date..date_ranges.last.to_datetime.to_date)
     @transaction = Transaction.new
     @transaction.date = Time.now
     @categories = current_user.categories.debits_first
