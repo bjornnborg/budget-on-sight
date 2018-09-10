@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Missing Transactions</h1>
+<% if flash[:error] && flash[:error].any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(flash[:error].count, "error") %> prohibited this transaction from being saved:</h2>
+
+    <ul>
+    <% flash[:error].each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<p>
+  <%= previous_month_link(missing_transactions_path) %> | 
+  <%= next_month_link(missing_transactions_path) %>
+</p>
+
+<% @missing_transactions.each do |frequency, transactions| %>
+  <%if !@missing_transactions[frequency].empty? %>
+    <h2>
+      <%if frequency == :daily%>
+        Daily
+      <%elsif frequency == :weekly%>
+        Weekly
+      <%else%>
+        Monthly
+      <%end%>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Payee</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% transactions.each do |transaction| %>
+            
+              <tr class="<%=transaction.category.category_type%>">
+                <%= form_for(transaction) do |f| %>
+                  <td>
+                    <%= transaction.category.full_description %>
+                    <%= f.hidden_field :category_id, value: transaction.category.id%>
+                    <%= hidden_field_tag :missing_transactions_flag, "true"%>
+                  </td>
+                  <td><%= f.date_select :date %><%=transaction.date.strftime('%a')%></td>
+                  <td class="currency"><%= f.text_field :amount %></td>
+                  <!--<= number_to_currency(transaction.normalized_amount, unit: "") >-->
+                  <td>
+                    <%= f.text_field :payee %>
+                    <%= f.submit "Go!"%>
+                  </td>
+                <%end%>
+                <%= form_for :dismiss_hash, url: dismiss_transactions_path do |f| %>
+                  <td>
+                    <%= f.hidden_field :missing_hash, value: transaction.missing_hash%>
+                    <%= f.submit "Dismiss"%>
+                  </td>
+                <%end%>
+              </tr>
+            
+        <% end %>
+        <%= transactions.size %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
+        </tr>
+      </tfoot>
+    </table>
+  <%end%>
+<%end%>
+<% if @missing_transactions.values.flatten.empty? %>
+    <p>No missing transactions</p>
+<%end%>
+<h1>New Transaction</h1>
+<%= render partial: 'form', locals: {missing_transactions_flag: true} %>

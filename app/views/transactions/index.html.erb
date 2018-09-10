@@ -4,7 +4,10 @@
 
 <p>
   <%= link_to 'New Transaction', new_transaction_path %> |
-  <%= link_to 'Categories', categories_path %>
+  <%= link_to 'Categories', categories_path %> |
+  <%= link_to 'Report', report_transactions_path %> |
+  <%= previous_month_link(transactions_path) %> | 
+  <%= next_month_link(transactions_path) %>
 </p>
 
 <table>
@@ -33,6 +36,14 @@
   </tbody>
   <tfoot>
     <tr>
+      <td>Créditos: <%=@credits_count%></td>
+      <td class="currency"><%=number_to_currency(@credits_total, unit:"")%></td>
+    </tr>
+    <tr>
+      <td>Débitos: <%=@debits_count%></td>
+      <td class="currency"><%=number_to_currency(@debits_total, unit:"")%></td>
+    </tr>
+    <tr>
       <td colspan="2" class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
     </tr>
   </tfoot>
@@ -41,4 +52,7 @@
 <br>
 
 <%= link_to 'New Transaction', new_transaction_path %> |
-<%= link_to 'Categories', categories_path %>
+<%= link_to 'Categories', categories_path %> |
+<%= link_to 'Report', report_transactions_path %> |
+<%= previous_month_link(transactions_path) %> | 
+<%= next_month_link(transactions_path) %>

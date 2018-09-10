@@ -11,6 +11,10 @@
     </div>
   <% end %>
 
+  <% if local_assigns[:missing_transactions_flag] %>
+    <%= hidden_field_tag :missing_transactions_flag, "true"%>
+  <%end%>
+
   <div class="field">
     <%= f.label :date %><br>
     <%= f.date_select :date %>

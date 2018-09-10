@@ -2,7 +2,7 @@ module DateHelper
 
   def date_range(hint_params = nil)
     return Time.zone.now.at_beginning_of_month..Time.zone.now.at_end_of_month if hint_params.nil? || no_params_supplied(hint_params)
-    reference = Time.zone.now
+    reference = Time.now
     year = reference.strftime("%Y").to_i
     month = reference.strftime("%m").to_i
     day = reference.strftime("%d").to_i
@@ -27,7 +27,7 @@ module DateHelper
   private
 
   def no_params_supplied(hint_params)
-    hint_params.keys.select {|k| k == :year || k == :month || k == :day}.size == 0
+    hint_params.keys.select {|k| k.to_sym == :year || k.to_sym == :month || k.to_sym == :day}.size == 0
   end
 
 end

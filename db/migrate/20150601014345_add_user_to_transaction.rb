@@ -1,4 +1,4 @@
-class AddUserToTransaction < ActiveRecord::Migration
+class AddUserToTransaction < ActiveRecord::Migration[5.0]
   def change
     add_reference :transactions, :user, index: true, foreign_key: true
   end

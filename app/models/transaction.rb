@@ -1,12 +1,14 @@
 class Transaction < ActiveRecord::Base
   before_validation :normalized_amount
+  before_save :compute_missing_hash
 
   belongs_to :category
   belongs_to :user
 
   scope :newer_first, -> {order(date: :desc, created_at: :asc)}
   scope :oldest_first, -> {order(date: :asc, created_at: :asc)}
-  default_scope -> {joins(:category)}
+  scope :from_group, -> (group_name) {Transaction.merge(Category.from_group(group_name))}
+  default_scope -> {eager_load(:category)}
 
   validates_presence_of :date, :amount, :category_id
 
@@ -26,6 +28,10 @@ class Transaction < ActiveRecord::Base
   end
 
   private
+
+  def compute_missing_hash
+    self[:missing_hash] = HashService.compute_missing_hash(self)
+  end
 
   def shift_needed
     (self[:amount] > 0 && debit?) || (self[:amount] < 0 && credit?)

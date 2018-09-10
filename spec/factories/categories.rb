@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :category do
     category_type :debit
     description "Some description"
@@ -17,9 +17,29 @@ FactoryGirl.define do
 
     trait :investment do
       investment true
-    end    
+    end
+
+    trait :monthly do
+      frequency :monthly
+    end
+
+    trait :weekly do
+      frequency :weekly
+    end
+
+    trait :daily do
+      frequency :daily
+    end
+
+    trait :oftenly do
+      frequency :oftenly
+    end
 
     factory :credit, traits: [:credit]
+    factory :monthly, traits: [:monthly]
+    factory :weekly, traits: [:weekly]
+    factory :daily, traits: [:daily]
+    factory :oftenly, traits: [:oftenly]
     
   end
 
