@@ -14,7 +14,7 @@ gem 'puma'
 
 # Heroku
 gem 'rails_12factor', group: :production
-ruby "2.4.3"
+ruby "2.4.4"
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
