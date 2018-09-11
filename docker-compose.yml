@@ -9,6 +9,9 @@ services:
       - MYSQL_ROOT_PASSWORD=root_pass
     #image: 'bjornnborg/delayed-mysql:5.6'
     image: 'mysql:5.6'
+    volumes:
+      #- dbdata:/var/lib/mysql
+      - ./dbdata:/var/lib/mysql
     networks:
       - my-network
 
@@ -25,3 +28,6 @@ services:
       - '3000:3000'
     depends_on:
       - mysql-service
+
+#volumes:
+#  dbdata:
