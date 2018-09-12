@@ -5,7 +5,8 @@
 <p>
   <%= link_to 'New Transaction', new_transaction_path %> |
   <%= link_to 'Categories', categories_path %> |
-  <%= link_to 'Report', report_transactions_path %> |
+  <%= get_month_link('Missing Transactions', missing_transactions_path) %> |
+  <%= get_month_link('Report', report_transactions_path) %> |
   <%= previous_month_link(transactions_path) %> | 
   <%= next_month_link(transactions_path) %>
 </p>
@@ -53,6 +54,7 @@
 
 <%= link_to 'New Transaction', new_transaction_path %> |
 <%= link_to 'Categories', categories_path %> |
-<%= link_to 'Report', report_transactions_path %> |
+<%= get_month_link('Missing Transactions', missing_transactions_path) %> |
+<%= get_month_link('Report', report_transactions_path) %> |
 <%= previous_month_link(transactions_path) %> | 
 <%= next_month_link(transactions_path) %>
