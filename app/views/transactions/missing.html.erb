@@ -14,6 +14,9 @@
 <% end %>
 
 <p>
+  <%= link_to 'Categories', categories_path %> |  
+  <%= get_month_link('Transactions', transactions_path) %> |
+  <%= get_month_link('Report', report_transactions_path) %> |
   <%= previous_month_link(missing_transactions_path) %> | 
   <%= next_month_link(missing_transactions_path) %>
 </p>
