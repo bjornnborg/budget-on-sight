@@ -47,10 +47,7 @@ class TransactionService
         transaction = Transaction.new
         transaction.date = candidate_date
         transaction.category = c
-        puts ">>>>>>>>HASH PARA A DATA #{candidate_date}"
         transaction.missing_hash = HashService.compute_missing_hash(transaction)        
-        puts ">>>>>>>>#{transaction.missing_hash}"
-        puts "------------------------"
         transaction
       end
     end
