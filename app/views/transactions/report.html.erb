@@ -2,6 +2,9 @@
 
 <h1>Transactions Report</h1>
 <p>
+  <%= link_to 'Categories', categories_path %> |
+  <%= get_month_link('Transactions', transactions_path) %> |
+  <%= get_month_link('Missing Transactions', missing_transactions_path) %> |  
   <%= previous_month_link(report_transactions_path) %> | 
   <%= next_month_link(report_transactions_path) %>
 </p>
