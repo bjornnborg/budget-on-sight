@@ -5,6 +5,9 @@ class Transaction < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
 
+  belongs_to :installment_transaction, class_name: "Transaction", foreign_key: :id
+  has_many :installment_transactions, class_name: "Transaction", foreign_key: :installment_transaction_id
+
   scope :newer_first, -> {order(date: :desc, created_at: :asc)}
   scope :oldest_first, -> {order(date: :asc, created_at: :asc)}
   scope :from_group, -> (group_name) {Transaction.merge(Category.from_group(group_name))}
@@ -27,6 +30,10 @@ class Transaction < ActiveRecord::Base
     self[:amount]
   end
 
+  def fmt_payee
+    "#{self.payee} (#{self.installment_number}/#{self.installments})".strip
+  end
+
   def /(installments)
     installments ||= 1
     self.amount ||= 0.0
@@ -35,21 +42,20 @@ class Transaction < ActiveRecord::Base
 
     (1..installments).each do |installment|
       transaction = Transaction.new(category: self.category, payee: self.payee, user: self.user)
+      transactions << transaction
+
       transaction.amount = self.amount / installments
       transaction.date = last_date
-      transaction.payee = resolve_payee_description(self.payee, installment, installments)
-
-      transactions << transaction
+      transaction.payee = self.payee
+      transaction.installments = installments
+      transaction.installment_number = installment      
+      transaction.installment_transaction = transactions.first
       last_date = resolve_installment_date(last_date)
     end
     transactions
   end
 
   private
-
-  def resolve_payee_description(payee, current_installment, total_installments)
-    "#{payee} (#{current_installment}/#{total_installments})".strip()
-  end
 
   def resolve_installment_date(last_date)
     intended_date = last_date + 1.month

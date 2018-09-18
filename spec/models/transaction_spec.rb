@@ -30,6 +30,11 @@ RSpec.describe Transaction, :type => :model do
       expect(transactions.size).to eq 4
     end
 
+    it "must use first transaction as parent installment transaction" do
+      transactions = Transaction.new(id: 3) / 4
+      expect(transactions.map{|t| t.installment_transaction}.uniq.first).to eq transactions.first
+    end
+
     it "must divide transaction value among new transactions" do
       transactions = Transaction.new(amount: 300.90) / 4      
       expect(transactions.map{|t| t.amount}.first).to eq BigDecimal.new("75.225")
@@ -65,17 +70,17 @@ RSpec.describe Transaction, :type => :model do
     it "must put installment number on payee description" do
       transactions = Transaction.new(payee: "Cool Store", date: Time.now, amount: 300) / 3
       
-      expect(transactions.first.payee).to eq "Cool Store (1/3)"
-      expect(transactions.second.payee).to eq "Cool Store (2/3)"
-      expect(transactions.third.payee).to eq "Cool Store (3/3)"
+      expect(transactions.first.fmt_payee).to eq "Cool Store (1/3)"
+      expect(transactions.second.fmt_payee).to eq "Cool Store (2/3)"
+      expect(transactions.third.fmt_payee).to eq "Cool Store (3/3)"
     end
 
     it "must put installment number on payee description even if empty" do
       transactions = Transaction.new(date: Time.now, amount: 300) / 3
       
-      expect(transactions.first.payee).to eq "(1/3)"
-      expect(transactions.second.payee).to eq "(2/3)"
-      expect(transactions.third.payee).to eq "(3/3)"
+      expect(transactions.first.fmt_payee).to eq "(1/3)"
+      expect(transactions.second.fmt_payee).to eq "(2/3)"
+      expect(transactions.third.fmt_payee).to eq "(3/3)"
     end
   end
 end

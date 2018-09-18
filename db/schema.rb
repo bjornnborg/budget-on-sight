@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_15_051537) do
+ActiveRecord::Schema.define(version: 2018_09_18_042307) do
 
   create_table "categories", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "category_type", null: false
@@ -45,8 +45,12 @@ ActiveRecord::Schema.define(version: 2018_09_15_051537) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.string "missing_hash"
+    t.integer "installments", default: 1
+    t.integer "installment_number", default: 1
+    t.integer "installment_transaction_id"
     t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["date"], name: "index_transactions_on_date"
+    t.index ["installment_transaction_id"], name: "index_transactions_on_installment_transaction_id"
     t.index ["missing_hash"], name: "index_transactions_on_missing_hash"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
@@ -71,5 +75,6 @@ ActiveRecord::Schema.define(version: 2018_09_15_051537) do
   add_foreign_key "categories", "users"
   add_foreign_key "dismissed_hashes", "users"
   add_foreign_key "transactions", "categories"
+  add_foreign_key "transactions", "transactions", column: "installment_transaction_id"
   add_foreign_key "transactions", "users"
 end
