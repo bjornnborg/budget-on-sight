@@ -7,6 +7,25 @@ class TransactionService
     dismissed.save
   end
 
+  def self.save(transaction)
+    ok = true
+    installment_plan = transaction.get_installment_plan
+    root = nil
+    installment_plan.each do |t|
+      # wrap saves/loop in transaction
+      t.installment_transaction = root unless root.nil?
+      ok = ok && t.save
+      root ||= t
+
+      break unless ok
+    end
+    ok
+  end
+
+  def self.destroy(transaction)
+    transaction.destroy
+  end
+
   def self.compute_missing_transactions(user)
     self.compute_missing_transactions_for_date(user, Date.today..Date.today)
   end

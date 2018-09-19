@@ -5,8 +5,8 @@ class Transaction < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
 
-  belongs_to :installment_transaction, class_name: "Transaction", foreign_key: :id
-  has_many :installment_transactions, class_name: "Transaction", foreign_key: :installment_transaction_id
+  belongs_to :installment_transaction, class_name: "Transaction", foreign_key: :installment_transaction_id
+  has_many :installment_transactions, class_name: "Transaction", foreign_key: :installment_transaction_id, dependent: :delete_all
 
   scope :newer_first, -> {order(date: :desc, created_at: :asc)}
   scope :oldest_first, -> {order(date: :asc, created_at: :asc)}
@@ -49,11 +49,33 @@ class Transaction < ActiveRecord::Base
       transaction.payee = self.payee
       transaction.installments = installments
       transaction.installment_number = installment      
-      transaction.installment_transaction = transactions.first
+      #transaction.installment_transaction = transactions.first
       last_date = resolve_installment_date(last_date)
     end
     transactions
   end
+
+  def get_installment_plan
+    installment_plan = []
+    if (self.installments > 1)
+      installment_plan = self / self.installments
+    else
+      installment_plan = [self]
+    end
+    installment_plan
+  end
+
+  def installment_plan_source?
+    self.installment_plan? && self.installment_number == 1
+  end
+
+  def installment_plan_child?
+    self.installment_plan? && self.installment_number != 1
+  end  
+
+  def installment_plan?
+    self.installments > 1
+  end  
 
   private
 
