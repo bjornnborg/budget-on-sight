@@ -30,11 +30,12 @@ RSpec.describe Transaction, :type => :model do
       expect(transactions.size).to eq 4
     end
 
+=begin #Test when testing TransactionService.save
     it "must use first transaction as parent installment transaction" do
       transactions = Transaction.new(id: 3) / 4
       expect(transactions.map{|t| t.installment_transaction}.uniq.first).to eq transactions.first
     end
-
+=end
     it "must divide transaction value among new transactions" do
       transactions = Transaction.new(amount: 300.90) / 4      
       expect(transactions.map{|t| t.amount}.first).to eq BigDecimal.new("75.225")

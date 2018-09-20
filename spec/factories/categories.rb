@@ -20,7 +20,7 @@ FactoryBot.define do
     end
 
     trait :monthly do
-      frequency :monthly
+      frequency {:monthly}
     end
 
     trait :weekly do

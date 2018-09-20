@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "Updating"
-docker-compose pull && start
+docker-compose pull && ./run.sh
 echo "Done"
