@@ -32,6 +32,12 @@
     <%= f.label :payee %><br>
     <%= f.text_field :payee %>
   </div>
+  <%unless @transaction.id%>
+    <div class="field">
+      <%= f.label :installments %><br>
+      <%= f.text_field :installments %>
+    </div>
+  <%end%>
   <div class="actions">
     <%= f.submit %>
   </div>

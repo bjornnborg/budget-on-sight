@@ -38,7 +38,8 @@ class TransactionsController < ApplicationController
     creating_missing = "true" == params["missing_transactions_flag"]
 
     respond_to do |format|
-      if @transaction.save
+      #if @transaction.save
+      if TransactionService.save(@transaction)
         format.html {
           if creating_missing
             redirect_to missing_transactions_path, notice: 'Transaction was successfully created.' 
@@ -76,7 +77,8 @@ class TransactionsController < ApplicationController
   end
 
   def destroy
-    @transaction.destroy
+    #@transaction.destroy
+    TransactionService.destroy(@transaction)
     respond_to do |format|
       format.html { redirect_to transactions_url, notice: 'Transaction was successfully destroyed.' }
       format.json { head :no_content }
@@ -137,7 +139,7 @@ class TransactionsController < ApplicationController
     end
 
     def transaction_params
-      params.require(:transaction).permit(:date, :amount, :category_id, :payee)
+      params.require(:transaction).permit(:date, :amount, :category_id, :payee, :installments)
     end
 
     def dismiss_params

@@ -20,6 +20,18 @@
   <%= @transaction.payee %>
 </p>
 
+<p>
+  <strong>Installments:</strong>
+  <%= @transaction.installment_number%>/<%=@transaction.installments %>
+</p>
+
+<%if @transaction.installment_plan_child?%>
+  <p>
+    <strong>Source:</strong>
+    <%= link_to "View source transaction", transaction_path(@transaction.installment_transaction.id)%>
+  </p>
+<%end%>
+
 <%= link_to 'New Transaction', new_transaction_path %> |
 <%= link_to 'Edit', edit_transaction_path(@transaction) %> |
 <%= link_to 'Back', transactions_path %>

@@ -18,6 +18,7 @@
       <th>Amount</th>
       <th>Category</th>
       <th>Payee</th>
+      <th>Installment</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -29,9 +30,22 @@
         <td class="currency"><%= number_to_currency(transaction.normalized_amount, unit: "") %></td>
         <td><%= transaction.category.full_description %></td>
         <td><%= transaction.payee %></td>
+        <td>
+          <%if transaction.installment_plan? %>
+            <%= transaction.installment_number%>/<%=transaction.installments %>
+          <%end%>
+        </td>
         <td><%= link_to 'Show', transaction %></td>
-        <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
-        <td><%= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%unless transaction.installment_plan? %>
+            <%= link_to 'Edit', edit_transaction_path(transaction) %></td>
+          <%end%>
+        <td>
+          <%if transaction.installment_plan_child? %>
+            <%= link_to 'View Parent', transaction_path(transaction.installment_transaction.id) %></td>
+          <% else %>
+            <%= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%end%>
       </tr>
     <% end %>
   </tbody>
