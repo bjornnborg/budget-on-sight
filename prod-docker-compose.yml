@@ -17,11 +17,9 @@ services:
 
   rails-one:
     build:
-      dockerfile: ./docker/dev.dockerfile
+      dockerfile: ./docker/app.dockerfile
       context: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    volumes:
-      - .:/budget-on-sight
     #command: bash ./rails-init.sh
     container_name: budget-on-sight-1
     networks:
