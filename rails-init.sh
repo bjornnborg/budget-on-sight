@@ -18,4 +18,11 @@ bundle exec rails db:migrate
 
 echo "Starting server"
 echo "---------------"
+
+if [ -e /budget-on-sight/tmp/pids/server.pid ]
+then
+  kill -9 `cat /budget-on-sight/tmp/pids/server.pid`
+  rm -f /budget-on-sight/tmp/pids/server.pid
+fi
+
 bundle exec rails s -p 3000 -b '0.0.0.0'
