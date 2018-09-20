@@ -15,10 +15,12 @@ RUN mkdir $RAILS_ROOT
 WORKDIR $RAILS_ROOT
 
 COPY Gemfile $RAILS_ROOT/Gemfile
-#COPY Gemfile.lock $RAILS_ROOT/Gemfile.lock
+COPY Gemfile.lock $RAILS_ROOT/Gemfile.lock
 
 RUN gem install bundler
 RUN bundle install
 COPY . $RAILS_ROOT
 RUN chmod +x rails-init.sh
 ENTRYPOINT ./rails-init.sh
+
+#docker build -t bjornnborg/budget-on-sight -f docker/app.dockerfile .
