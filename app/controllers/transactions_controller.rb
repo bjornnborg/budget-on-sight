@@ -94,12 +94,22 @@ class TransactionsController < ApplicationController
   end
 
   def report
+
+    #extract to service
+
     @existing_params = params.to_unsafe_h.slice("year", "month")
 
     date_ranges = date_range(params)
+    previous_date_range = previous_date_range(date_ranges)
     @transactions = current_user.transactions
       .since(date_ranges.first)
       .until(date_ranges.last)
+      .oldest_first
+      .all
+
+    @previous_transactions = current_user.transactions
+      .since(previous_date_range.first)
+      .until(previous_date_range.last)
       .oldest_first
       .all
 
@@ -113,6 +123,15 @@ class TransactionsController < ApplicationController
     @current_balance = @transactions.balance
 
     @investments_total = @transactions.select{|t| t.category.investment?}.sum{|t| t.amount}
+
+    @previous_report = {}
+    @previous_report[:debit] = Hash[@previous_transactions.select{|t| t.debit?}.group_by{|t| t.category.group}.sort_by{|k,v| v.sum(&:amount)}]
+    @previous_report[:credit] = Hash[@previous_transactions.select{|t| t.credit?}.group_by{|t| t.category.group}.sort_by{|k, v| v.sum(&:amount)}.reverse]
+
+    @previous_debits_total = @previous_report[:debit].values.flat_map{|a| a}.sum{|t| t.amount} * 1.0
+    @previous_credits_total = @previous_report[:credit].values.flat_map{|a| a}.sum{|t| t.amount} * 1.0
+
+
   end
 
   def report_detail
