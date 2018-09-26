@@ -16,6 +16,7 @@
       <th>Total</th>
       <th>%</th>
       <th>&Delta;%</th>
+      <th>&Delta;$</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -35,9 +36,14 @@
             previous_percentile = 0 if previous_percentile.infinite? || previous_percentile.nan?
 
             percentile_delta = (previous_percentile != 0.0) ? (percentile - previous_percentile) : 0
+
+            amount = (transactions.sum{|t| t.amount}.abs)
+            previous_amount = (previous_transactions_of_group.sum{|t| t.amount}.abs)
+            amount_delta = amount - previous_amount
           %>
           <td class="currency"><%=number_to_currency(percentile, unit:"")%></td>
           <td class="currency"><%=number_to_currency(percentile_delta, unit:"")%></td>
+          <td class="currency"><%=number_to_currency(amount_delta, unit:"")%></td>
         </tr>
       <% end %>
     </tbody>
