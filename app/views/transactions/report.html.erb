@@ -117,7 +117,7 @@
         %>
         <%=number_to_currency(amount_delta, unit:"")%>
       </td>
-      <td class="currency"><%=number_to_currency((@debits_total - @investments_total) - (@previous_debits_total - @previous_investments_total) * -1, unit:"")%></td>
+      <td class="currency"><%=number_to_currency(((@debits_total - @investments_total) * -1) - ((@previous_debits_total - @previous_investments_total) * -1), unit:"")%></td>
     </tr>
   </tfoot>
 </table>
