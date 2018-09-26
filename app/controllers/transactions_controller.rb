@@ -131,6 +131,9 @@ class TransactionsController < ApplicationController
     @previous_debits_total = @previous_report[:debit].values.flat_map{|a| a}.sum{|t| t.amount} * 1.0
     @previous_credits_total = @previous_report[:credit].values.flat_map{|a| a}.sum{|t| t.amount} * 1.0
 
+    @previous_balance = @previous_transactions.balance
+    @previous_investments_total = @previous_transactions.select{|t| t.category.investment?}.sum{|t| t.amount}
+
 
   end
 
