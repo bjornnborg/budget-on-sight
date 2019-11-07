@@ -65,4 +65,40 @@ RSpec.describe DateHelper, :type => :helper do
 
   end
 
+  context "Define next or previous date ranges" do
+
+    before(:each) do
+      Timecop.freeze(Time.local(2018, 8, 17, 13, 45, 23))
+    end
+
+    after(:each) do
+      Timecop.return
+    end
+
+    it "must return previous day on daily range" do
+      range = (Time.now.at_beginning_of_day..Time.now.at_end_of_day)
+      previous_range = DateHelper.previous_date_range(range)
+
+      expect(previous_range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2018-08-16 00:00:00.000"
+      expect(previous_range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2018-08-16 23:59:59.999"
+    end
+
+    it "must return previous month on monthly range" do
+      range = (Time.now.at_beginning_of_month..Time.now.at_end_of_month)
+      previous_range = DateHelper.previous_date_range(range)
+
+      expect(previous_range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2018-07-01 00:00:00.000"
+      expect(previous_range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2018-07-31 23:59:59.999"
+    end
+
+    it "must return previous year on yearly range" do
+      range = (Time.now.at_beginning_of_year..Time.now.at_end_of_year)
+      previous_range = DateHelper.previous_date_range(range)
+
+      expect(previous_range.first.strftime("%Y-%m-%d 00:00:00.000")).to eq "2017-01-01 00:00:00.000"
+      expect(previous_range.last.strftime("%Y-%m-%d 23:59:59.999")).to eq "2017-12-31 23:59:59.999"
+    end
+
+  end
+
 end

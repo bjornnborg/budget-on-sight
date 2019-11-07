@@ -24,6 +24,23 @@ module DateHelper
 
   end
 
+  def previous_date_range(date_range)
+    previous = Range.new(0, 0)
+    if (date_range.first.strftime("%Y%m%d") == date_range.last.strftime("%Y%m%d"))
+      day = date_range.first.at_beginning_of_day - 1.days
+      previous = (day..day.at_end_of_day)
+    elsif (date_range.first.strftime("%Y%m") == date_range.last.strftime("%Y%m"))
+      day = date_range.first.at_beginning_of_month - 1.months
+      previous = (day..day.at_end_of_month)
+    elsif (date_range.first.strftime("%Y") == date_range.last.strftime("%Y"))
+      day = date_range.first.at_beginning_of_year - 1.years
+      previous = (day..day.at_end_of_year)
+    end
+
+    previous
+
+  end
+
   private
 
   def no_params_supplied(hint_params)

@@ -15,6 +15,9 @@
       <th>Category</th>
       <th>Total</th>
       <th>%</th>
+      <th>&Delta;p.p</th>
+      <th>&Delta;% - Category</th>
+      <th>&Delta;$</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,7 +28,27 @@
         <tr class="<%=category_type%>">
           <td><%=link_to group, report_detail_transactions_path({group_name: group}.merge(@existing_params))%></td>
           <td class="currency"><%= number_to_currency(transactions.sum{|t| t.amount}, unit: "") %></td>
-          <td class="currency"><%=number_to_currency((transactions.sum{|t| t.amount}.abs / @credits_total) * 100, unit:"")%></td>
+          <%
+            percentile = (transactions.sum{|t| t.amount}.abs / @credits_total) * 100
+            previous_transactions_of_group = @previous_report[category_type][group] || []
+            previous_percentile = (previous_transactions_of_group.sum{|t| t.amount}.abs / @previous_credits_total) * 100
+
+            percentile = 0 if percentile.infinite?
+            previous_percentile = 0 if previous_percentile.infinite? || previous_percentile.nan?
+
+            percentile_delta = (previous_percentile != 0.0) ? (percentile - previous_percentile) : 0
+            percentile_delta_relative = (previous_percentile != 0.0) ? ((percentile / (previous_percentile) - 1) * 100) : 0
+
+            amount = (transactions.sum{|t| t.amount}.abs)
+            previous_amount = (previous_transactions_of_group.sum{|t| t.amount}.abs)
+            amount_delta = amount - previous_amount
+          %>
+          <td class="currency"><%=number_to_currency(percentile, unit:"")%></td>
+          <td class="currency"><%=number_to_currency(percentile_delta, unit:"")%></td>
+          <td class="currency">
+            <%=number_to_currency(percentile_delta_relative, unit:"")%>
+          </td>
+          <td class="currency"><%=number_to_currency(amount_delta, unit:"")%></td>
         </tr>
       <% end %>
     </tbody>
@@ -34,22 +57,77 @@
     <tr>
       <td>Total Créditos</td>
       <td class="currency"><%=number_to_currency(@credits_total, unit:"")%></td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">
+        <%
+          previous_amount = @previous_credits_total
+          amount = @credits_total
+          amount_delta = previous_amount != 0 ? ((amount / previous_amount) - 1) * 100 : 0
+        %>
+        <%=number_to_currency(amount_delta, unit:"")%>
+      </td>
+      <td class="currency"><%=number_to_currency(@credits_total - @previous_credits_total, unit:"")%></td>
     </tr>
     <tr>
       <td>Total Débitos</td>
       <td class="currency"><%=number_to_currency(@debits_total, unit:"")%></td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">
+        <%
+          previous_amount = @previous_debits_total
+          amount = @debits_total
+          amount_delta = previous_amount != 0 ? ((amount / previous_amount) - 1) * 100 : 0
+        %>
+        <%=number_to_currency(amount_delta, unit:"")%>
+      </td>
+      <td class="currency"><%=number_to_currency((@debits_total - @previous_debits_total) * -1, unit:"")%></td>
     </tr>
     <tr>
       <td>Saldo</td>
       <td class="currency"><%=number_to_currency(@current_balance, unit:"")%></td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">
+        <%
+          previous_amount = @previous_balance
+          amount = @current_balance
+          amount_delta = previous_amount != 0 ? ((amount / previous_amount) - 1) * 100 : 0
+        %>
+        <%=number_to_currency(amount_delta, unit:"")%>
+      </td>
+      <td class="currency"><%=number_to_currency((@current_balance - @previous_balance), unit:"")%></td>
     </tr>
     <tr>
       <td>Investimentos</td>
       <td class="currency"><%=number_to_currency(@investments_total, unit:"")%></td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">
+        <%
+          previous_amount = @previous_investments_total
+          amount = @investments_total
+          amount_delta = previous_amount != 0 ? ((amount / previous_amount) - 1) * 100 : 0
+        %>
+        <%=number_to_currency(amount_delta, unit:"")%>
+      </td>
+      <td class="currency"><%=number_to_currency((@investments_total - @previous_investments_total) * -1, unit:"")%></td>
     </tr>
     <tr>
       <td>Total Gastos</td>
       <td class="currency"><%=number_to_currency(@debits_total - @investments_total, unit:"")%></td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">&nbsp;</td>
+      <td class="currency">
+        <%
+          previous_amount = (@previous_debits_total - @previous_investments_total)
+          amount = (@debits_total - @investments_total)
+          amount_delta = previous_amount != 0 ? ((amount / previous_amount) - 1) * 100 : 0
+        %>
+        <%=number_to_currency(amount_delta, unit:"")%>
+      </td>
+      <td class="currency"><%=number_to_currency(((@debits_total - @investments_total) * -1) - ((@previous_debits_total - @previous_investments_total) * -1), unit:"")%></td>
     </tr>
   </tfoot>
 </table>
